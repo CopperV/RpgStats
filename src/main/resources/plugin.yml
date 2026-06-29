@@ -1,0 +1,23 @@
+name: RpgStats
+version: '${version}'
+
+main: me.vark123.dsrpg.rpgStats.RpgStats
+api-version: '1.21.11'
+load: POSTWORLD
+
+authors: [ Vark123 ]
+
+softdepend:
+  - MMOProfiles
+  - PlaceholderAPI
+  - RpgCore
+
+commands:
+  staty:
+    aliases: [stats, stat]
+  rpgstat:
+    aliases: [statadd]
+  rpgmod:
+    aliases: [rpgmodifier]
+  rpgcurrentvalue:
+    aliases: [rpgcstat, rpgfill]

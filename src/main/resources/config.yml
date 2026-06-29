@@ -1,0 +1,115 @@
+storage:
+  #Available: SQLITE, MYSQL, MONGO, JSON, YAML
+  type: SQLITE
+  mysql:
+    host: "localhost"
+    port: 3306
+    database: "rpgstats"
+    username: "root"
+    password: ""
+    use-ssl: false
+stats-config:
+  saveable-keys:
+    - "learned"
+    - "bonus"
+  stat-list:
+    pn:
+      display: "Punkty nauki"
+      default-value: 0
+      renewable: false
+    pu:
+      display: "Punkty umiejetnosci"
+      default-value: 0
+      renewable: false
+    hp:
+      display: "Witalnosc"
+      default-value: 40
+      renewable: true
+    mana:
+      display: "Mana"
+      default-value: 20
+      renewable: true
+    cond:
+      display: "Kondycja"
+      default-value: 20
+      renewable: true
+    sp:
+      display: "Punkty przywolan"
+      default-value: 4
+      renewable: true
+    str:
+      display: "Sila"
+      default-value: 5
+      renewable: false
+    zr:
+      display: "Zrecznosc"
+      default-value: 5
+      renewable: false
+    wiedza:
+      display: "Wiedza"
+      default-value: 0
+      renewable: false
+    crit_1h:
+      display: "Bron jednoreczna"
+      default-value: 5
+      renewable: false
+    crit_2h:
+      display: "Bron dwureczna"
+      default-value: 5
+      renewable: false
+    crit_staff:
+      display: "Kostury"
+      default-value: 5
+      renewable: false
+    crit_bow:
+      display: "Luki"
+      default-value: 5
+      renewable: false
+    crit_crossbow:
+      display: "Kusze"
+      default-value: 5
+      renewable: false
+    crit_pwr:
+      display: "Moc"
+      default-value: 5
+      renewable: false
+    dmg_sieczne:
+      display: "Obrazenia sieczne"
+      default-value: 0
+      renewable: false
+    dmg_obuchowe:
+      display: "Obrazenia obuchowe"
+      default-value: 0
+      renewable: false
+    dmg_klute:
+      display: "Obrazenia klute"
+      default-value: 0
+      renewable: false
+    dmg_magiczne:
+      display: "Obrazenia magiczne"
+      default-value: 0
+      renewable: false
+    dmg_ogien:
+      display: "Obrazenia ogien"
+      default-value: 0
+      renewable: false
+    def_sieczne:
+      display: "Ochrona sieczne"
+      default-value: 0
+      renewable: false
+    def_obuchowe:
+      display: "Ochrona obuchowe"
+      default-value: 0
+      renewable: false
+    def_klute:
+      display: "Ochrona klute"
+      default-value: 0
+      renewable: false
+    def_magiczne:
+      display: "Ochrona magiczne"
+      default-value: 0
+      renewable: false
+    def_ogien:
+      display: "Ochrona ogien"
+      default-value: 0
+      renewable: false
