@@ -2,6 +2,7 @@ package me.vark123.dsrpg.rpgStats.statLogic.commands.implementations;
 
 import me.vark123.dsrpg.commands.SubCommand;
 import me.vark123.dsrpg.rpgStats.playerLogic.RpgPlayerStatsManager;
+import me.vark123.dsrpg.utility.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -34,7 +35,7 @@ public class ModifierClearSubCommand implements SubCommand {
             return true;
         }
 
-        var player = getPlayerByNickOrUUID(args[0]);
+        var player = Utils.getPlayerByNickOrUUID(args[0]);
         if (player == null) {
             sender.sendMessage(Component.text(NamedTextColor.RED + "Cannot find provided player as argument [" + args[0] + "]"));
             return true;
@@ -55,14 +56,5 @@ public class ModifierClearSubCommand implements SubCommand {
                 return null;
         }
         return List.of();
-    }
-
-    private Player getPlayerByNickOrUUID(String input) {
-        try {
-            UUID uid = UUID.fromString(input);
-            return Bukkit.getPlayer(uid);
-        } catch (IllegalArgumentException e) {
-            return Bukkit.getPlayerExact(input);
-        }
     }
 }

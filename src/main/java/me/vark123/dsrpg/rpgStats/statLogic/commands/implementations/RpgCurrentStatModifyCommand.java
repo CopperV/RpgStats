@@ -1,6 +1,7 @@
 package me.vark123.dsrpg.rpgStats.statLogic.commands.implementations;
 
 import me.vark123.dsrpg.rpgStats.playerLogic.RpgPlayerStatsManager;
+import me.vark123.dsrpg.utility.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -35,7 +36,7 @@ public class RpgCurrentStatModifyCommand implements CommandExecutor, TabComplete
         var statId = args[2].toLowerCase();
         var strValue = args[3];
 
-        var target = getPlayerByNickOrUUID(targetName);
+        var target = Utils.getPlayerByNickOrUUID(args[0]);
         if(target == null) {
             sender.sendMessage(Component.text(NamedTextColor.RED + "Cannot find provided player as argument [" + args[0] + "]"));
             return false;
@@ -76,14 +77,5 @@ public class RpgCurrentStatModifyCommand implements CommandExecutor, TabComplete
 
     private void sendCorrectUsage(CommandSender sender) {
         sender.sendMessage("§cCorrect usage: /rpgcurrentvalue <add> <player> <stat> <amount>");
-    }
-
-    private Player getPlayerByNickOrUUID(String input) {
-        try {
-            UUID uid = UUID.fromString(input);
-            return Bukkit.getPlayer(uid);
-        } catch (IllegalArgumentException e) {
-            return Bukkit.getPlayerExact(input);
-        }
     }
 }

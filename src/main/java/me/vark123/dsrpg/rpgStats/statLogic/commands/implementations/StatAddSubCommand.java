@@ -4,13 +4,19 @@ import me.vark123.dsrpg.commands.SubCommand;
 import me.vark123.dsrpg.rpgStats.playerLogic.RpgPlayerStatsManager;
 import me.vark123.dsrpg.rpgStats.statLogic.RpgStat;
 import me.vark123.dsrpg.rpgStats.statLogic.RpgStatManager;
+import me.vark123.dsrpg.utility.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -39,7 +45,7 @@ public class StatAddSubCommand implements SubCommand {
             return true;
         }
 
-        var player = getPlayerByNickOrUUID(args[0]);
+        var player = Utils.getPlayerByNickOrUUID(args[0]);
         if (player == null) {
             sender.sendMessage(Component.text(NamedTextColor.RED + "Cannot find provided player as argument [" + args[0] + "]"));
             return true;
@@ -62,11 +68,25 @@ public class StatAddSubCommand implements SubCommand {
         }
 
         var key = args.length >= 4 ? args[3] : "default";
-        var duration = args.length >= 5 ? parseDuration(args[4]) : -1;
+        var duration = args.length >= 5 ? Utils.parseInputToDuration(args[4]) : -1;
         var unique = args.length >= 6 && Boolean.parseBoolean(args[5]);
 
-        stat.addValue(value, key, unique, duration);
-        sender.sendMessage(Component.text(NamedTextColor.GREEN + "[" + player.getName() + "] Added " + value + " to stat " + stat.getStat().getId() + " as key [" + key + "] for duration [" + duration + "]. Unique [" + unique + "]"));
+        Date now = new Date();
+        long expiringAt = -1;
+        if(duration >= 0){
+            expiringAt = now.getTime() + duration;
+        }
+
+        String durationText = "NEVER";
+        if(expiringAt >= 0){
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+            LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(expiringAt), ZoneId.systemDefault());
+            durationText = dateTime.format(formatter);
+        }
+
+        stat.addValue(value, key, unique, expiringAt);
+        sender.sendMessage(Component.text(NamedTextColor.GREEN + "[" + player.getName() + "] Added " + value + " to stat " + stat.getStat().getId() + " as key [" + key + "] " +
+                "for duration [" + durationText + "]. Unique [" + unique + "]"));
         return true;
     }
 
@@ -91,61 +111,5 @@ public class StatAddSubCommand implements SubCommand {
                 return List.of("true", "false");
         }
         return List.of();
-    }
-
-    private Player getPlayerByNickOrUUID(String input) {
-        try {
-            UUID uid = UUID.fromString(input);
-            return Bukkit.getPlayer(uid);
-        } catch (IllegalArgumentException e) {
-            return Bukkit.getPlayerExact(input);
-        }
-    }
-
-    private long parseDuration(String input) {
-        if (input == null || input.isEmpty() || input.equalsIgnoreCase("true") || input.equalsIgnoreCase("-1"))
-            return -1;
-
-        var cleanInput = input.toLowerCase().trim();
-        if (cleanInput.endsWith("t")) {
-            try {
-                long ticks = Long.parseLong(cleanInput.replace("t", ""));
-                return ticks * 50; // 1 tick = 50ms
-            } catch (NumberFormatException e) {
-                return -1;
-            }
-        }
-
-        Pattern pattern = Pattern.compile("(\\d+)(mo|y|w|d|h|m|s)");
-        Matcher matcher = pattern.matcher(cleanInput);
-
-        long totalMillis = 0;
-        boolean found = false;
-
-        while (matcher.find()) {
-            found = true;
-            long value = Long.parseLong(matcher.group(1));
-            String unit = matcher.group(2);
-
-            switch (unit) {
-                case "s" -> totalMillis += value * 1000L;
-                case "m" -> totalMillis += value * 60L * 1000L;
-                case "h" -> totalMillis += value * 60L * 60L * 1000L;
-                case "d" -> totalMillis += value * 24L * 60L * 60L * 1000L;
-                case "w" -> totalMillis += value * 7L * 24L * 60L * 60L * 1000L;
-                case "mo" -> totalMillis += value * 30L * 24L * 60L * 60L * 1000L; // Przybliżenie: 30 dni
-                case "y" -> totalMillis += value * 365L * 24L * 60L * 60L * 1000L; // Przybliżenie: 365 dni
-            }
-        }
-
-        if (!found) {
-            try {
-                return Long.parseLong(cleanInput) * 1000L;
-            } catch (NumberFormatException e) {
-                return -1;
-            }
-        }
-
-        return totalMillis;
     }
 }

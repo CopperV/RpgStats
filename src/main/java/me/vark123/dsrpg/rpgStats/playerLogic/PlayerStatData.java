@@ -148,8 +148,9 @@ public class PlayerStatData {
 
     private void cleanExpired() {
         long now = System.currentTimeMillis();
+
         values.removeIf(entry -> entry.getExpiringAt() >= 0 && now > entry.getExpiringAt());
-        modifiers.removeIf(entry -> entry.getExpiringAt() >= 0 && entry.isUnique());
+        modifiers.removeIf(entry -> entry.getExpiringAt() >= 0 && now > entry.getExpiringAt());
     }
 
     public void clear(boolean all) {

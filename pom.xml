@@ -6,7 +6,7 @@
 
     <groupId>me.vark123.dsrpg</groupId>
     <artifactId>RpgStats</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>RpgStats</name>
@@ -100,7 +100,7 @@
         <dependency>
             <groupId>me.vark123.dsrpg</groupId>
             <artifactId>RpgCore</artifactId>
-            <version>0.0.2-SNAPSHOT</version>
+            <version>0.0.3-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

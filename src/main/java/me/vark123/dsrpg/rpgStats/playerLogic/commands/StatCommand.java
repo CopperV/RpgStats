@@ -54,7 +54,7 @@ public class StatCommand implements CommandExecutor {
                 int current = stat.getCurrentValue();
                 sender.sendMessage("§7- §6"+statName+"§7: §e"+current+"§7/§e"+total);
             } else {
-                sender.sendMessage("§7- §6"+statName+"§7: "+total);
+                sender.sendMessage("§7- §6"+statName+"§7: §e"+total);
             }
         });
         sender.sendMessage("§8=========================================");
