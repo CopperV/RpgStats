@@ -2,7 +2,9 @@ package me.vark123.dsrpg.rpgStats;
 
 import lombok.Getter;
 import me.vark123.dsrpg.rpgStats.placeholders.RpgStatsPlaceholders;
-import me.vark123.dsrpg.rpgStats.playerLogic.RpgPlayerStatsManager;
+import me.vark123.dsrpg.rpgStats.statLogic.managers.MiscEntityStatsManager;
+import me.vark123.dsrpg.rpgStats.statLogic.managers.MythicEntityStatsManager;
+import me.vark123.dsrpg.rpgStats.statLogic.managers.RpgPlayerStatsManager;
 import me.vark123.dsrpg.rpgStats.playerLogic.commands.StatCommand;
 import me.vark123.dsrpg.rpgStats.playerLogic.listeners.PlayerLoginStateListener;
 import me.vark123.dsrpg.rpgStats.statLogic.RpgStatManager;
@@ -11,7 +13,6 @@ import me.vark123.dsrpg.rpgStats.statLogic.commands.RpgStatModifyCommand;
 import me.vark123.dsrpg.rpgStats.statLogic.commands.implementations.RpgCurrentStatModifyCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -47,6 +48,8 @@ public final class RpgStats extends JavaPlugin {
 
     private void registerListeners() {
         Bukkit.getPluginManager().registerEvents(new PlayerLoginStateListener(), this);
+        Bukkit.getPluginManager().registerEvents(MythicEntityStatsManager.getInstance(), this);
+        Bukkit.getPluginManager().registerEvents(MiscEntityStatsManager.getInstance(), this);
     }
 
     private void registerCommands() {

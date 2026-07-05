@@ -1,11 +1,14 @@
-package me.vark123.dsrpg.rpgStats.playerLogic;
+package me.vark123.dsrpg.rpgStats.statLogic.managers;
 
 import lombok.Getter;
 import me.vark123.dsrpg.rpgStats.RpgStats;
+import me.vark123.dsrpg.rpgStats.playerLogic.RpgPlayerStatsHolder;
+import me.vark123.dsrpg.rpgStats.statLogic.RpgStatsHolder;
 import me.vark123.dsrpg.rpgStats.playerLogic.dto.ModifierEntryDTO;
 import me.vark123.dsrpg.rpgStats.playerLogic.dto.PlayerStatsDTO;
 import me.vark123.dsrpg.rpgStats.playerLogic.dto.StatDataDTO;
 import me.vark123.dsrpg.rpgStats.playerLogic.dto.StatEntryDTO;
+import me.vark123.dsrpg.rpgStats.statLogic.IEntityStatManager;
 import me.vark123.dsrpg.rpgStats.statLogic.RpgStatManager;
 import me.vark123.dsrpg.rpgStats.storage.IStatStorageService;
 import me.vark123.dsrpg.rpgStats.storage.StatStorageFactory;
@@ -13,33 +16,33 @@ import me.vark123.dsrpg.rpgStats.storage.StatStorageFactory;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public final class RpgPlayerStatsManager {
+public final class RpgPlayerStatsManager implements IEntityStatManager {
     @Getter
     private static final RpgPlayerStatsManager instance = new RpgPlayerStatsManager();
 
     private final IStatStorageService storageService;
-    private final Map<UUID, RpgPlayerStats> playerStatsContainer = new HashMap<>();
+    private final Map<UUID, RpgStatsHolder> playerStatsContainer = new HashMap<>();
 
     private RpgPlayerStatsManager() {
         storageService = StatStorageFactory.createStorage(RpgStats.getInstance().getConfig());
         storageService.init();
     }
 
-    public Optional<RpgPlayerStats> tryGetPlayerStats(UUID uuid) {
+    public Optional<RpgStatsHolder> tryGetStats(UUID uuid) {
         return Optional.ofNullable(playerStatsContainer.get(uuid));
     }
 
-    public @Nullable RpgPlayerStats getPlayerStats(UUID uuid) {
+    public @Nullable RpgStatsHolder getStats(UUID uuid) {
         return playerStatsContainer.get(uuid);
     }
 
-    public RpgPlayerStats loadStats(UUID uuid) {
+    public RpgStatsHolder loadStats(UUID uuid) {
         if (playerStatsContainer.containsKey(uuid)) {
             return playerStatsContainer.get(uuid);
         }
 
         var oDto = storageService.loadStats(uuid);
-        RpgPlayerStats stats = oDto.map(this::fromDto).orElseGet(RpgPlayerStats::new);
+        RpgStatsHolder stats = oDto.map(this::fromDto).orElseGet(RpgStatsHolder::new);
 
         playerStatsContainer.put(uuid, stats);
         return stats;
@@ -50,11 +53,11 @@ public final class RpgPlayerStatsManager {
             saveStats(uuid, playerStatsContainer.get(uuid));
     }
 
-    public void saveStats(UUID uuid, RpgPlayerStats stats) {
+    public void saveStats(UUID uuid, RpgStatsHolder stats) {
         storageService.saveStats(uuid, toDto(stats));
     }
 
-    public RpgPlayerStats removeStats(UUID uuid) {
+    public RpgStatsHolder removeStats(UUID uuid) {
         return playerStatsContainer.remove(uuid);
     }
 
@@ -68,7 +71,7 @@ public final class RpgPlayerStatsManager {
         storageService.shutdown();
     }
 
-    private PlayerStatsDTO toDto(RpgPlayerStats stats) {
+    private PlayerStatsDTO toDto(RpgStatsHolder stats) {
         RpgStatManager statManager = RpgStatManager.getInstance();
         Map<String, StatDataDTO> statDtoMap = new HashMap<>();
 
@@ -107,8 +110,8 @@ public final class RpgPlayerStatsManager {
         return new PlayerStatsDTO(statDtoMap);
     }
 
-    private RpgPlayerStats fromDto(PlayerStatsDTO dto) {
-        RpgPlayerStats stats = new RpgPlayerStats();
+    private RpgStatsHolder fromDto(PlayerStatsDTO dto) {
+        RpgStatsHolder stats = new RpgPlayerStatsHolder();
 
         dto.stats().forEach((id, statDto) -> {
             stats.tryGetStat(id).ifPresent(stat -> {

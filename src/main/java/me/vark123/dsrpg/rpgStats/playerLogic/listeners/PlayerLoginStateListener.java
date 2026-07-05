@@ -2,7 +2,7 @@ package me.vark123.dsrpg.rpgStats.playerLogic.listeners;
 
 import me.vark123.dsrpg.players.events.RpgPlayerJoinEvent;
 import me.vark123.dsrpg.players.events.RpgPlayerLeaveEvent;
-import me.vark123.dsrpg.rpgStats.playerLogic.RpgPlayerStatsManager;
+import me.vark123.dsrpg.rpgStats.statLogic.managers.RpgPlayerStatsManager;
 import me.vark123.dsrpg.rpgStats.playerLogic.events.PlayerStatsLoadEvent;
 import me.vark123.dsrpg.rpgStats.playerLogic.events.PlayerStatsUnloadEvent;
 import org.bukkit.Bukkit;

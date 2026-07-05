@@ -1,17 +1,12 @@
-package me.vark123.dsrpg.rpgStats.playerLogic;
+package me.vark123.dsrpg.rpgStats.statLogic;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import me.vark123.dsrpg.rpgStats.statLogic.RpgStat;
-import me.vark123.dsrpg.rpgStats.statLogic.RpgStatManager;
-import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
-import org.jetbrains.annotations.Debug;
 
 import java.util.*;
 
-public class PlayerStatData {
+public class StatData {
 
     @Getter
     private RpgStat stat;
@@ -22,9 +17,8 @@ public class PlayerStatData {
     private final List<StatEntry> values = new ArrayList<>();
     private final List<ModifierEntry> modifiers = new ArrayList<>();
 
-    public PlayerStatData(RpgStat stat) {
+    public StatData(RpgStat stat) {
         this.stat = stat;
-        addValue(stat.getDefaultValue(), "start");
         this.currentValue = getCurrentValue();
     }
 

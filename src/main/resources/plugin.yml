@@ -7,6 +7,9 @@ load: POSTWORLD
 
 authors: [ Vark123 ]
 
+depend:
+  - MythicMobs
+
 softdepend:
   - MMOProfiles
   - PlaceholderAPI

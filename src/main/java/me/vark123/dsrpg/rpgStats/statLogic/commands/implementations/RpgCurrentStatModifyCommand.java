@@ -1,20 +1,17 @@
 package me.vark123.dsrpg.rpgStats.statLogic.commands.implementations;
 
-import me.vark123.dsrpg.rpgStats.playerLogic.RpgPlayerStatsManager;
+import me.vark123.dsrpg.rpgStats.statLogic.managers.RpgPlayerStatsManager;
 import me.vark123.dsrpg.utility.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.UUID;
 
 public class RpgCurrentStatModifyCommand implements CommandExecutor, TabCompleter {
     private final String permission = "rpgstats.admin";
@@ -42,7 +39,7 @@ public class RpgCurrentStatModifyCommand implements CommandExecutor, TabComplete
             return false;
         }
 
-        var stat = RpgPlayerStatsManager.getInstance().getPlayerStats(target.getUniqueId()).getStat(statId);
+        var stat = RpgPlayerStatsManager.getInstance().getStats(target.getUniqueId()).getStat(statId);
         if(stat == null) {
             sender.sendMessage(Component.text(NamedTextColor.RED + "Cannot find provided stat as argument [" + statId + "]"));
             return false;

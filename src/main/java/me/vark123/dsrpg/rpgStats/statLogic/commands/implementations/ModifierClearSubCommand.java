@@ -1,16 +1,13 @@
 package me.vark123.dsrpg.rpgStats.statLogic.commands.implementations;
 
 import me.vark123.dsrpg.commands.SubCommand;
-import me.vark123.dsrpg.rpgStats.playerLogic.RpgPlayerStatsManager;
+import me.vark123.dsrpg.rpgStats.statLogic.managers.RpgPlayerStatsManager;
 import me.vark123.dsrpg.utility.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.List;
-import java.util.UUID;
 
 public class ModifierClearSubCommand implements SubCommand {
     @Override
@@ -41,7 +38,7 @@ public class ModifierClearSubCommand implements SubCommand {
             return true;
         }
 
-        var stats = RpgPlayerStatsManager.getInstance().getPlayerStats(player.getUniqueId());
+        var stats = RpgPlayerStatsManager.getInstance().getStats(player.getUniqueId());
         var key = args[1].toLowerCase();
 
         stats.getStats().forEach(stat -> stat.removeModifier(key));

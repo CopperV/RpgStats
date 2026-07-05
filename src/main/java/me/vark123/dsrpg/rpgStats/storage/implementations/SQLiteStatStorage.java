@@ -3,7 +3,6 @@ package me.vark123.dsrpg.rpgStats.storage.implementations;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import me.vark123.dsrpg.rpgStats.RpgStats;
-import me.vark123.dsrpg.rpgStats.playerLogic.RpgPlayerStats;
 import me.vark123.dsrpg.rpgStats.playerLogic.dto.PlayerStatsDTO;
 import me.vark123.dsrpg.rpgStats.storage.IStatStorageService;
 
