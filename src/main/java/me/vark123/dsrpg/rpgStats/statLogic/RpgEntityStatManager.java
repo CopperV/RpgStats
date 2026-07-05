@@ -46,7 +46,9 @@ public class RpgEntityStatManager implements IEntityStatManager {
 
     @Override
     public void shutdown() {
-
+        PLAYER_STATS_MANAGER.shutdown();
+        ENTITY_STATS_MANAGER.shutdown();
+        MYTHIC_ENTITY_STATS_MANAGER.shutdown();
     }
 
     private IEntityStatManager getManager(UUID uid) {

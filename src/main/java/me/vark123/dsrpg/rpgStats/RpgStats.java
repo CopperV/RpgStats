@@ -2,6 +2,7 @@ package me.vark123.dsrpg.rpgStats;
 
 import lombok.Getter;
 import me.vark123.dsrpg.rpgStats.placeholders.RpgStatsPlaceholders;
+import me.vark123.dsrpg.rpgStats.statLogic.RpgEntityStatManager;
 import me.vark123.dsrpg.rpgStats.statLogic.managers.MiscEntityStatsManager;
 import me.vark123.dsrpg.rpgStats.statLogic.managers.MythicEntityStatsManager;
 import me.vark123.dsrpg.rpgStats.statLogic.managers.RpgPlayerStatsManager;
@@ -31,7 +32,7 @@ public final class RpgStats extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        RpgPlayerStatsManager.getInstance().shutdown();
+        RpgEntityStatManager.getInstance().shutdown();
     }
 
     private void initialize() {

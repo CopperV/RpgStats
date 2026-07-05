@@ -18,13 +18,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MiscEntityStatsManager implements IEntityStatManager, Listener {
 
     @Getter
     public static final MiscEntityStatsManager instance = new MiscEntityStatsManager();
 
-    private final Map<UUID, RpgStatsHolder> miscStatsContainer = new HashMap<>();
+    private final Map<UUID, RpgStatsHolder> miscStatsContainer = new ConcurrentHashMap<>();
 
     private MiscEntityStatsManager() {
 

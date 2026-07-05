@@ -42,7 +42,7 @@ public final class RpgPlayerStatsManager implements IEntityStatManager {
         }
 
         var oDto = storageService.loadStats(uuid);
-        RpgStatsHolder stats = oDto.map(this::fromDto).orElseGet(RpgStatsHolder::new);
+        RpgStatsHolder stats = oDto.map(this::fromDto).orElseGet(RpgPlayerStatsHolder::new);
 
         playerStatsContainer.put(uuid, stats);
         return stats;
