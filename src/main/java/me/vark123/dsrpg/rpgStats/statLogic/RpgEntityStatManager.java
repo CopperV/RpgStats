@@ -5,6 +5,7 @@ import lombok.Getter;
 import me.vark123.dsrpg.rpgStats.statLogic.managers.MiscEntityStatsManager;
 import me.vark123.dsrpg.rpgStats.statLogic.managers.MythicEntityStatsManager;
 import me.vark123.dsrpg.rpgStats.statLogic.managers.RpgPlayerStatsManager;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -17,8 +18,8 @@ public class RpgEntityStatManager implements IEntityStatManager {
     private static final RpgEntityStatManager instance = new RpgEntityStatManager();
 
     private final IEntityStatManager PLAYER_STATS_MANAGER = RpgPlayerStatsManager.getInstance();
-    private final IEntityStatManager ENTITY_STATS_MANAGER = MythicEntityStatsManager.getInstance();
-    private final IEntityStatManager MYTHIC_ENTITY_STATS_MANAGER = MiscEntityStatsManager.getInstance();
+    private final IEntityStatManager ENTITY_STATS_MANAGER = MiscEntityStatsManager.getInstance();
+    private final IEntityStatManager MYTHIC_ENTITY_STATS_MANAGER = MythicEntityStatsManager.getInstance();
 
     private RpgEntityStatManager() {
 
@@ -59,7 +60,7 @@ public class RpgEntityStatManager implements IEntityStatManager {
         if(entity instanceof Player)
             return PLAYER_STATS_MANAGER;
 
-        if(MythicBukkit.inst().getMobManager().isActiveMob(uid))
+        if(MythicBukkit.inst().getMobManager().isMythicMob(entity))
             return MYTHIC_ENTITY_STATS_MANAGER;
 
         return ENTITY_STATS_MANAGER;

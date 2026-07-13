@@ -1,5 +1,8 @@
 package me.vark123.dsrpg.rpgStats.statLogic;
 
+import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
+
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.HashMap;

@@ -8,6 +8,7 @@ import io.lumine.mythic.core.mobs.ActiveMob;
 import io.lumine.mythic.core.mobs.MobExecutor;
 import io.lumine.mythic.core.skills.variables.VariableType;
 import lombok.Getter;
+import me.vark123.dsrpg.rpgStats.RpgStats;
 import me.vark123.dsrpg.rpgStats.statLogic.RpgStatsHolder;
 import me.vark123.dsrpg.rpgStats.statLogic.IEntityStatManager;
 import org.bukkit.Bukkit;
@@ -38,15 +39,7 @@ public class MythicEntityStatsManager implements IEntityStatManager, Listener {
         if(mobStats.containsKey(uid))
             return Optional.of(mobStats.get(uid));
 
-        if (!mobExecutor.isActiveMob(uid))
-            return Optional.empty();
-
-        var entity = Bukkit.getEntity(uid);
-        if(entity == null)
-            return Optional.empty();
-
-        var activeMob = mobExecutor.getMythicMobInstance(entity);
-        var stats = parseMythicVariables(activeMob);
+        var stats = loadStats(uid);
         return Optional.ofNullable(stats);
     }
 
@@ -106,7 +99,9 @@ public class MythicEntityStatsManager implements IEntityStatManager, Listener {
 
     @EventHandler
     private void onSpawn(MythicMobSpawnEvent event) {
-        loadStats(event.getEntity().getUniqueId());
+        Bukkit.getScheduler().runTaskLater(RpgStats.getInstance(), () -> {
+            loadStats(event.getMob().getUniqueId());
+        }, 1L);
     }
 
     @EventHandler

@@ -3,6 +3,8 @@ package me.vark123.dsrpg.rpgStats.statLogic;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 
 import java.util.*;
 

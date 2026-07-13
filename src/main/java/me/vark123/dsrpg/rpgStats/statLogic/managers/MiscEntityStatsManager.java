@@ -14,7 +14,6 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.world.EntitiesUnloadEvent;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -37,12 +36,7 @@ public class MiscEntityStatsManager implements IEntityStatManager, Listener {
             return Optional.of(miscStatsContainer.get(uid));
         }
 
-        var entity = Bukkit.getEntity(uid);
-        if(entity == null || entity.isDead())
-            return Optional.empty();
-
-        var stats = loadStats(entity);
-        miscStatsContainer.put(uid, stats);
+        var stats = loadStats(uid);
         return Optional.of(stats);
     }
 
@@ -52,11 +46,12 @@ public class MiscEntityStatsManager implements IEntityStatManager, Listener {
     }
 
     @Override
-    public RpgStatsHolder loadStats(UUID uid) {Entity entity = Bukkit.getEntity(uid);
-        if (entity == null)
+    public RpgStatsHolder loadStats(UUID uid) {
+        Entity entity = Bukkit.getEntity(uid);
+        if (entity == null || entity.isDead())
             return null;
 
-        RpgStatsHolder stats = loadStats(entity);
+        RpgStatsHolder stats = parseEntityStats(entity);
         miscStatsContainer.put(uid, stats);
         return stats;
     }
@@ -71,7 +66,7 @@ public class MiscEntityStatsManager implements IEntityStatManager, Listener {
         miscStatsContainer.clear();
     }
 
-    private RpgStatsHolder loadStats(Entity entity) {
+    private RpgStatsHolder parseEntityStats(Entity entity) {
         RpgStatsHolder stats = new RpgStatsHolder();
 
         if(entity == null)
